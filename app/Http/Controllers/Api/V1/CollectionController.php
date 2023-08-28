@@ -25,7 +25,7 @@ class CollectionController extends ApiController
      *     tags={"Collections"},
      *     @OA\Parameter(
      *         description="collection completed (0 or 1)",
-     *         name="completed",
+     *         name="wanted_Completed",
      *         in="query",
      *         @OA\Schema(
      *             type="string",
@@ -33,7 +33,7 @@ class CollectionController extends ApiController
      *     ),
      *     @OA\Parameter(
      *         description="part of the title of collection",
-     *         name="wantedTitle",
+     *         name="wanted_Title",
      *         in="query",
      *         @OA\Schema(
      *             type="string",
@@ -41,7 +41,23 @@ class CollectionController extends ApiController
      *     ),
      *     @OA\Parameter(
      *         description="part of the description of collection",
-     *         name="wantedDescription",
+     *         name="wanted_Description",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+           @OA\Parameter(
+     *         description="part of the target amount of collection",
+     *         name="wanted_TargetAmount",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         description="part of the link of collection",
+     *         name="wanted_Link",
      *         in="query",
      *         @OA\Schema(
      *             type="string",
@@ -63,9 +79,12 @@ class CollectionController extends ApiController
      */
     public function index(Request $request): JsonResponse
     {
-        $wantedTitle = $request->input('wantedTitle');
-        $wantedDescription = $request->input('wantedDescription');
-        $collectionsList = $this->model->getList($wantedTitle, $wantedDescription);
+        $wantedTitle = $request->input('wanted_Title');
+        $wantedDescription = $request->input('wanted_Description');
+        $wantedTargetAmount = '%'.$request->input('wanted_TargetAmount').'%';
+        $wantedLink = '%'.$request->input('wanted_Link').'%';
+        $wantedCompleted = $request->input('wanted_Completed');
+        $collectionsList = $this->model->getList($wantedTitle, $wantedDescription, $wantedTargetAmount, $wantedLink, $wantedCompleted);
         return response()->json($collectionsList, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 

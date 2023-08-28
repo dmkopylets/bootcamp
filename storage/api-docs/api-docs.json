@@ -18,7 +18,7 @@
                 "operationId": "getCollectionsList",
                 "parameters": [
                     {
-                        "name": "completed",
+                        "name": "wanted_Completed",
                         "in": "query",
                         "description": "collection completed (0 or 1)",
                         "schema": {
@@ -26,7 +26,7 @@
                         }
                     },
                     {
-                        "name": "wantedTitle",
+                        "name": "wanted_Title",
                         "in": "query",
                         "description": "part of the title of collection",
                         "schema": {
@@ -34,9 +34,25 @@
                         }
                     },
                     {
-                        "name": "wantedDescription",
+                        "name": "wanted_Description",
                         "in": "query",
                         "description": "part of the description of collection",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wanted_TargetAmount",
+                        "in": "query",
+                        "description": "part of the target amount of collection",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wanted_Link",
+                        "in": "query",
+                        "description": "part of the link of collection",
                         "schema": {
                             "type": "string"
                         }
