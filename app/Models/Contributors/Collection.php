@@ -10,6 +10,7 @@ class Collection extends Model
 {
     use HasFactory;
 
+
     protected $table = 'collections';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -26,6 +27,7 @@ class Collection extends Model
         'target_amount',
         'link'
     ];
+    private array $list = [];
 
     public function getDetails(int $collectionId): array
     {
@@ -48,7 +50,7 @@ class Collection extends Model
         ? string $link = '',
         ? string $completed = ''): array
     {
-        $list = self::
+        $this->list = self::
               where('title', 'like', '%' . $title . '%')
             ->where('description', 'like', '%' . $description . '%')
             ->where('target_amount', 'like', '%' . $target_amount . '%')
@@ -57,20 +59,23 @@ class Collection extends Model
             ->get()
             ->toArray();
 
-        foreach ($list as $key =>$row) {
+        foreach ($this->list as $key =>$row) {
             $contritutors = self::find($row['id'])->contritutors;
-            $list[$key]['completed'] = $row['target_amount'] > array_sum($contritutors->pluck('amount')->toArray()) ? 0 : 1;
+            $this->list[$key]['completed'] = $row['target_amount'] > array_sum($contritutors->pluck('amount')->toArray()) ? 0 : 1;
 
-            if (trim($completed) === "0"){
-                if ($list[$key]['completed'] !== 0) { unset($list[$key]); }
-            }
+            $filter = trim($completed);
 
-            if (trim($completed) === "1"){
-                if ($list[$key]['completed'] !== 1) { unset($list[$key]); }
+            if( in_array($filter, array('0', '1')) ){
+                $this->unsetRow($key, (int) $filter);
             }
         }
 
-        return $list;
+        return $this->list;
+    }
+
+    private function unsetRow(int $key, int $filter)
+    {
+        if ($this->list[$key]['completed'] !== $filter) { unset($this->list[$key]); }
     }
 
     public function contritutors(): HasMany
