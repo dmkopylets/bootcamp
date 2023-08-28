@@ -29,6 +29,12 @@ class Collection extends Model
     ];
     private array $list = [];
 
+
+    public function contributors(): HasMany
+    {
+        return $this->hasMany(Contributor::class);
+    }
+
     public function getDetails(int $collectionId): array
     {
         $collectionData = self::select(
@@ -60,8 +66,8 @@ class Collection extends Model
             ->toArray();
 
         foreach ($this->list as $key =>$row) {
-            $contritutors = self::find($row['id'])->contritutors;
-            $this->list[$key]['completed'] = $row['target_amount'] > array_sum($contritutors->pluck('amount')->toArray()) ? 0 : 1;
+            $contributors = self::find($row['id'])->contributors;
+            $this->list[$key]['completed'] = $row['target_amount'] > array_sum($contributors->pluck('amount')->toArray()) ? 0 : 1;
 
             $filter = trim($completed);
 
@@ -76,10 +82,5 @@ class Collection extends Model
     private function unsetRow(int $key, int $filter)
     {
         if ($this->list[$key]['completed'] !== $filter) { unset($this->list[$key]); }
-    }
-
-    public function contritutors(): HasMany
-    {
-        return $this->hasMany(Contributor::class);
     }
 }
