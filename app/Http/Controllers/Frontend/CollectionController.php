@@ -22,10 +22,10 @@ class CollectionController extends Controller
 
     public function index(Request $request): View
     {
-        $wantedTitle = '%'.$request->input('wanted_title').'%';
-        $wantedDescription = '%'.$request->input('wanted_description').'%';
-        $wantedTargetAmount = '%'.$request->input('wanted_target_amount').'%';
-        $wantedLink = '%'.$request->input('wanted_link').'%';
+        $wantedTitle = $request->input('wanted_title');
+        $wantedDescription = $request->input('wanted_description');
+        $wantedTargetAmount = $request->input('wanted_target_amount');
+        $wantedLink = $request->input('wanted_link');
         $wantedCompleted = $request->input('wanted_completed');
         return view('contributors.collection.index', [
             'records' => $this->model->getList($wantedTitle, $wantedDescription, $wantedTargetAmount, $wantedLink, $wantedCompleted),

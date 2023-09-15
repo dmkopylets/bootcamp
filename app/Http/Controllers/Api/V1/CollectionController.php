@@ -81,8 +81,8 @@ class CollectionController extends ApiController
     {
         $wantedTitle = $request->input('wanted_Title');
         $wantedDescription = $request->input('wanted_Description');
-        $wantedTargetAmount = '%'.$request->input('wanted_TargetAmount').'%';
-        $wantedLink = '%'.$request->input('wanted_Link').'%';
+        $wantedTargetAmount = $request->input('wanted_TargetAmount');
+        $wantedLink = $request->input('wanted_Link');
         $wantedCompleted = $request->input('wanted_Completed');
         $collectionsList = $this->model->getList($wantedTitle, $wantedDescription, $wantedTargetAmount, $wantedLink, $wantedCompleted);
         return response()->json($collectionsList, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

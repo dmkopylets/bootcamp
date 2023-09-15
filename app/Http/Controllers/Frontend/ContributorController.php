@@ -25,8 +25,8 @@ class ContributorController extends Controller
      */
     public function index(Request $request)
     {
-        $wantedUserName = '%'.$request->input('wanted_user_name').'%';
-        $wantedAmount = '%'.$request->input('wanted_amount').'%';
+        $wantedUserName = $request->input('wanted_user_name');
+        $wantedAmount = $request->input('wanted_amount');
         $records = $this->model::
         where('user_name', 'like', $wantedUserName)->
         where('amount', 'like', $wantedAmount)->
